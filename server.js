@@ -16,33 +16,34 @@ app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Our API for getting chats
-app.get('/api/chats', (req, res) => {
-	getChats(req.query.latest || 0, function(rows){
+// Our API for getting tasks
+app.get('/api/tasks', (req, res) => {
+	getTasks(function(rows){
 		res.send(rows);
 	});
 });
 
-// Our API for posting new chats
-app.post('/api/chats', (req, res) => {
+// Our API for posting new tasks
+app.post('/api/tasks', (req, res) => {
 	const chatBody = req.body.body;
-	db.all('INSERT INTO chats (body) VALUES (?)', chatBody, function(err, rows){
+	db.all('INSERT INTO tasks (body) VALUES (?)', chatBody, function(err, rows){
 		// Return a 500 status if there was an error, otherwise success status
 		res.send(err ? 500 : 200);
 	});
 });
 
-function getChats(latestID, cb){
-	db.all('SELECT rowid,body,date FROM chats WHERE rowid > (?)', latestID, function(err, rows){
+function getTasks(cb){
+	db.all('SELECT rowid,body,date,complete FROM tasks', function(err, rows){
 		cb(rows);
 	});
 }
 
 
 const create_table = `
-CREATE TABLE IF NOT EXISTS chats (
+CREATE TABLE IF NOT EXISTS tasks (
   date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  body TEXT
+  body TEXT,
+  complete BOOLEAN DEFAULT FALSE
 )
 `;
 
