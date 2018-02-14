@@ -1,8 +1,10 @@
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
-const db = new sqlite3.Database(process.env.DATABASE);
+const DATABASE = 'stuff.db'
+const db = new sqlite3.Database(DATABASE);
 const path = require('path');
+const exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 
 // Use this to parse the body of post requests
@@ -11,6 +13,12 @@ app.use(bodyParser.json())
 // Use this to server static files from the 'static' directory
 app.use('/static', express.static('static'))
 
+// Configure the template/view engine
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main',
+}));
+app.set('view engine', 'handlebars');
+
 // Our homepage---just send the index.html file
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'index.html'));
@@ -18,18 +26,12 @@ app.get('/', (req, res) => {
 
 // Our API for getting tasks
 app.get('/api/tasks', (req, res) => {
+	let task_list =[];
 	getTasks(function(rows){
-		res.send(rows);
+	res.render('task-list',{tasks:rows});
+	console.log((rows))
 	});
-});
 
-// Our API for posting new tasks
-app.post('/api/tasks', (req, res) => {
-	const chatBody = req.body.body;
-	db.all('INSERT INTO tasks (body) VALUES (?)', chatBody, function(err, rows){
-		// Return a 500 status if there was an error, otherwise success status
-		res.send(err ? 500 : 200);
-	});
 });
 
 function getTasks(cb){

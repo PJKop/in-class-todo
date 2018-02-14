@@ -1,0 +1,23 @@
+
+{{!-- Task list view will go here --}}
+
+<h1>To do list </h1>
+
+
+<table id="tasks">
+    <thead>
+        <th>Row Id</th>
+        <th>Task</th>
+        <th>Time submitted</th>
+        <th>Complete</th>
+    </thead>
+    {{#each tasks}}
+    <tr class="task">
+        <td>{{rowid}}</td>
+        <td>{{body}}</td>
+        <td>{{date}}</td>
+        <td>{{complete}}</td>
+    </tr>
+    {{/each}}
+</table>
+
