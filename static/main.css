@@ -3,6 +3,24 @@ body{
 	background: #ddd;
 }
 
-li:nth-child(odd){
+table:nth-child(odd){
 	background: #eee;
+}
+
+.header{
+	color: blue;
+	
+}
+
+.complete{
+	text-decoration: line-through;
+	color:green;
+}
+
+.incomplete{
+	color: blue;
+}
+
+thead{
+	font:red;
 }

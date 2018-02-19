@@ -29,7 +29,6 @@ app.get('/api/tasks', (req, res) => {
 	let task_list =[];
 	getTasks(function(rows){
 	res.render('task-list',{tasks:rows});
-	console.log((rows))
 	});
 
 });
@@ -40,6 +39,26 @@ function getTasks(cb){
 	});
 }
 
+// Our API for posting new tasks
+app.post('/api/tasks', (req, res) => {
+	console.log(req.body.body)
+	const taskBody = req.body.body;
+	db.all('INSERT INTO tasks (body) VALUES (?)', taskBody, function(err, rows){
+		// Return a 500 status if there was an error, otherwise success status
+		res.send(err ? 500 : 200);
+	});
+});
+
+// Our API for marking complete
+app.post('/api/tasks/completed', (req, res) => {
+	console.log(req.body.body)
+	console.log('running')
+	const taskBody = req.body.body;
+	db.all('UPDATE tasks SET complete=0 WHERE body = "test"', function(err, rows){
+		// Return a 500 status if there was an error, otherwise success status
+		res.send(err ? 500 : 200);
+	});
+});
 
 const create_table = `
 CREATE TABLE IF NOT EXISTS tasks (

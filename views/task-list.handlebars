@@ -1,23 +1,49 @@
 
 {{!-- Task list view will go here --}}
+<head>
+	<script src="/static/index.js">
+	</script>
+	<link href="/static/main.css" rel="stylesheet"``>
+</head>
 
 <h1>To do list </h1>
 
 
-<table id="tasks">
-    <thead>
+<table>
+    <thead class="header">
         <th>Row Id</th>
         <th>Task</th>
         <th>Time submitted</th>
         <th>Complete</th>
+        <th>Trial</th>
     </thead>
     {{#each tasks}}
-    <tr class="task">
-        <td>{{rowid}}</td>
+    {{#if TRUE }}
+    <tr class="complete">
+        <td class="complete">{{rowid}}</td>
         <td>{{body}}</td>
         <td>{{date}}</td>
         <td>{{complete}}</td>
     </tr>
+    {{else}}
+    <tr class="incomplete">
+        <td>{{rowid}}</td>
+        <td> {{body}}</td>
+        <td>{{date}}</td>
+        <td> 
+            <form action="/api/tasks/completed" method="GET">
+                <button type="submit" value={{body}}>
+                    Update
+                </button>
+            </form>
+        </td>
+        <td>
+            <form action="">
+            <input type="submit" name="SaveChanges" value="Update" onclick='/api/tasks/c2' />
+            </form>
+        </td>
+    </tr>
+    {{/if}}
     {{/each}}
 </table>
 

@@ -50,6 +50,7 @@ function sendtaskToServer(){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+	console.log('running event listener')
 	const submitButton = document.querySelector('input[type=submit]');
 	submitButton.addEventListener('click', (event) => {
 		// Stop the default action, which is to submit the form
@@ -58,3 +59,23 @@ document.addEventListener("DOMContentLoaded", function() {
 		sendtaskToServer();
 	});
 });
+
+// Update Completed when button is pushed
+function markTaskComplete(){
+	const task = document.querySelector('input[type=text]');
+	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+	xmlhttp.open("POST", "/api/tasks/completed");
+	xmlhttp.send(JSON.stringify({ body: task.value }));
+	task.value = '';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+	const submitButton = document.querySelector('input[type=button]');
+	submitButton.addEventListener('click', (event) => {
+		// Stop the default action, which is to submit the form
+		// https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+		event.preventDefault();
+		markTaskComplete();
+	});
+});
+
