@@ -1,10 +1,11 @@
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
-const DATABASE = 'stuff.db'
+const DATABASE = 'task-table.db'
 const db = new sqlite3.Database(DATABASE);
 const path = require('path');
 const exphbs = require('express-handlebars');
+const port = 3000;
 var bodyParser = require('body-parser');
 
 // Use this to parse the body of post requests
@@ -50,11 +51,10 @@ app.post('/api/tasks', (req, res) => {
 });
 
 // Our API for marking complete
-app.post('/api/tasks/completed', (req, res) => {
-	console.log(req.body.body)
-	console.log('running')
-	const taskBody = req.body.body;
-	db.all('UPDATE tasks SET complete=0 WHERE body = "test"', function(err, rows){
+app.get('/api/tasks/completed', (req, res) => {
+	const rowid = req.query['rowid'];
+	console.log(rowid)
+	db.all('UPDATE tasks SET complete=1 WHERE rowid = $1',rowid, function(err, rows){
 		// Return a 500 status if there was an error, otherwise success status
 		res.send(err ? 500 : 200);
 	});
@@ -64,14 +64,14 @@ const create_table = `
 CREATE TABLE IF NOT EXISTS tasks (
   date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   body TEXT,
-  complete BOOLEAN DEFAULT FALSE
+  complete BIT DEFAULT NULL
 )
 `;
 
 
 db.serialize(function() {
   db.run(create_table);
-	const port = process.env.PORT;
+	
   app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 });
 

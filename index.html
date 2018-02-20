@@ -9,12 +9,15 @@
 			To Do List
 		</h1>
 		<div>
-	    <form action="/api/tasks" method="GET">
+	    <form action="/api/tasks" method="POST">
 	        <input type="text" name="task" placeholder="What task to add?">
 	        <input type="submit">
 	    </form>
 		</div>
-		<ul id="chats">
+		<form action="/api/tasks">
+			<input type="submit" value="Go to task list" />
+		</form>
+		<ul id="tasks">
 		</ul>
 	</body>
 </html>

@@ -15,31 +15,24 @@
         <th>Task</th>
         <th>Time submitted</th>
         <th>Complete</th>
-        <th>Trial</th>
     </thead>
     {{#each tasks}}
-    {{#if TRUE }}
+    {{#if complete }}
     <tr class="complete">
-        <td class="complete">{{rowid}}</td>
+        <td>{{rowid}}</td>
         <td>{{body}}</td>
         <td>{{date}}</td>
-        <td>{{complete}}</td>
+        <td>FINISHED</td>
     </tr>
     {{else}}
     <tr class="incomplete">
         <td>{{rowid}}</td>
-        <td> {{body}}</td>
+        <td>{{body}}</td>
         <td>{{date}}</td>
         <td> 
             <form action="/api/tasks/completed" method="GET">
-                <button type="submit" value={{body}}>
-                    Update
-                </button>
-            </form>
-        </td>
-        <td>
-            <form action="">
-            <input type="submit" name="SaveChanges" value="Update" onclick='/api/tasks/c2' />
+                <input type="hidden" name="rowid" value={{rowid}}>
+                <input type="submit" value="Finished?">
             </form>
         </td>
     </tr>

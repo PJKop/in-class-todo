@@ -17,9 +17,6 @@ function reqListener () {
 		ulElement.appendChild(newli);
 	});
 }
-
-
-
 // requesttasks requests the latest tasks from
 // the server.
 function requesttasks(){
@@ -41,6 +38,7 @@ setInterval(requesttasks, 2000);
 
 // Grab the value that is in the text box and send it to the server
 function sendtaskToServer(){
+	console.log('running sendtasktoServer')
 	const textBox = document.querySelector('input[type=text]');
 	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
 	xmlhttp.open("POST", "/api/tasks");
@@ -62,15 +60,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Update Completed when button is pushed
 function markTaskComplete(){
+	console.log('running markTask')
 	const task = document.querySelector('input[type=text]');
 	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
 	xmlhttp.open("POST", "/api/tasks/completed");
-	xmlhttp.send(JSON.stringify({ body: task.value }));
+	xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	xmlhttp.send(JSON.stringify({ body: task }));
 	task.value = '';
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	const submitButton = document.querySelector('input[type=button]');
+	const submitButton = document.querySelector("input[type=hidden]");
 	submitButton.addEventListener('click', (event) => {
 		// Stop the default action, which is to submit the form
 		// https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
