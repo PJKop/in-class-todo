@@ -61,11 +61,11 @@ document.addEventListener("DOMContentLoaded", function() {
 // Update Completed when button is pushed
 function markTaskComplete(){
 	console.log('running markTask')
-	const task = document.querySelector('input[type=text]');
+	const rowid = document.querySelector('input[type=number]');
 	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
 	xmlhttp.open("POST", "/api/tasks/completed");
 	xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	xmlhttp.send(JSON.stringify({ body: task }));
+	xmlhttp.send(JSON.stringify({ body: "rowid" }));
 	task.value = '';
 }
 

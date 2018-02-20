@@ -1,7 +1,7 @@
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
-const DATABASE = 'task-table.db'
+const DATABASE = 'task-list.db'
 const db = new sqlite3.Database(DATABASE);
 const path = require('path');
 const exphbs = require('express-handlebars');
@@ -51,8 +51,9 @@ app.post('/api/tasks', (req, res) => {
 });
 
 // Our API for marking complete
-app.get('/api/tasks/completed', (req, res) => {
-	const rowid = req.query['rowid'];
+app.post('/api/tasks/completed', (req, res) => {
+	console.log(req)
+	const rowid = req.body['rowid'];
 	console.log(rowid)
 	db.all('UPDATE tasks SET complete=1 WHERE rowid = $1',rowid, function(err, rows){
 		// Return a 500 status if there was an error, otherwise success status

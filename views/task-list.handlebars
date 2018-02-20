@@ -30,7 +30,7 @@
         <td>{{body}}</td>
         <td>{{date}}</td>
         <td> 
-            <form action="/api/tasks/completed" method="GET">
+            <form action="/api/tasks/completed" method="POST">
                 <input type="hidden" name="rowid" value={{rowid}}>
                 <input type="submit" value="Finished?">
             </form>
